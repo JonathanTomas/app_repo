@@ -54,7 +54,7 @@ class _SinInFormState extends State<SinInForm> {
                   if (_formKey.currentState.validate()) {
                     Provider.of<LoginState>(context).handleEmailSignIn(
                         _emailController.value.text,
-                        _passwordController.value.text);
+                        _passwordController.value.text,context);
                   }
                 },
                 text: 'Sign in',
