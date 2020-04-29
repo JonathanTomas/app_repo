@@ -85,9 +85,11 @@ class LoginState with ChangeNotifier {
         showDialog(
             context: _context,
             builder: (BuildContext context) {
-              return Container(
-                child: Center(
-                  child: Text("El ususario no existe."),
+              return AlertDialog(
+                child: Container(
+                  child: Center(
+                    child: Text("El ususario no existe."),
+                  ),
                 ),
               );
             },
@@ -96,8 +98,19 @@ class LoginState with ChangeNotifier {
       }
     } catch (e) {
       _loading = false;
+      showDialog(
+            context: _context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                child: Container(
+                  child: Center(
+                    child: Text(e.toString()),
+                  ),
+                ),
+              );
+            },
+        );
       notifyListeners();
-
       return e.code;
     }
   }
