@@ -60,8 +60,8 @@ class LoginState with ChangeNotifier {
     _loggedIn = false;
     notifyListeners();
   }
-
-  Future<dynamic> handleEmailSignIn(String email, String password) async {
+  // Me traigo el contexto de la actividad desde donde se realiza la llamada
+  Future<dynamic> handleEmailSignIn(String email, String password,BuildContext context) async {
     try {
       _loading = true;
       notifyListeners();
@@ -77,10 +77,32 @@ class LoginState with ChangeNotifier {
         notifyListeners();
       } else {
         _loggedIn = false;
+        // Si no existe el usuario muestro una ventana modal de que no existe
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                child: Center(
+                  child: Text("El ususario no existe."),
+                ),
+              );
+            },
+        );
         notifyListeners();
       }
     } catch (e) {
       _loading = false;
+      // Si no existe el usuario muestro una ventana modal de que no existe
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return Container(
+                child: Center(
+                  child: Text("Error: " + e.toString()),
+                ),
+              );
+            },
+        );
       notifyListeners();
 
       return e.code;
