@@ -15,6 +15,7 @@ class LoginState with ChangeNotifier {
   Observable<FirebaseUser> user;
   Observable<Map<String, dynamic>> profile;
   SharedPreferences _prefs;
+  BuildContext _context;
 
   bool _loggedIn = false;
   bool _loading = true;
@@ -22,6 +23,10 @@ class LoginState with ChangeNotifier {
 
   LoginState() {
     loginState();
+  }
+  
+  init(BuildContext context) {
+    _context = context;
   }
 
   bool isLoggedIn() => _loggedIn;
@@ -77,6 +82,16 @@ class LoginState with ChangeNotifier {
         notifyListeners();
       } else {
         _loggedIn = false;
+        showDialog(
+            context: _context,
+            builder: (BuildContext context) {
+              return Container(
+                child: Center(
+                  child: Text("El ususario no existe."),
+                ),
+              );
+            },
+        );
         notifyListeners();
       }
     } catch (e) {
